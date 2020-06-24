@@ -1,17 +1,17 @@
-const users = (state = [], action: any) => {
+const users = (state = { loading: false, data: [] }, action: any) => {
   switch (action.type) {
-    case "GETUSERS":
-      return { error: false, loading: true };
+    case "GET_USERS":
+      return { loading: true };
 
-    case "GETDATASUCCESS":
-      return { error: false, loading: false, data: action.payload.data };
+    case "GET_USERS_SUCCESS":
+      return { ...state, loading: false, data: action.payload };
 
-    case "GETDATAFAIL":
+    case "GET_USERS_FAIL":
       return {
-        error: true,
-        errorMessage: action.payload.error,
+        ...state,
         loading: false,
-        data: action.payload.data
+        data: [],
+        error: action.payload.error,
       };
 
     default:

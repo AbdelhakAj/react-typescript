@@ -1,13 +1,13 @@
 import { combineReducers } from "redux";
 
-import count from "./counter";
+import me from "./me";
 import users from "./users";
 
-const rootReducer = combineReducers({ count, users });
+const rootReducer = combineReducers({ me, users });
 
 export interface RootState {
+  me: any;
   users: any;
-  count: number;
 }
 
 export default rootReducer;

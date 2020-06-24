@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { get } from "lodash";
 
 import { RootState } from "libs/reducers";
+import Auth from "components/auth/auth";
+import { getAccessToken } from "libs/functions";
 
 import "./app.scss";
 
 function App() {
-  const count = useSelector((state: RootState) => state.count);
   const users = useSelector((state: RootState) => state.users);
+  const me = useSelector((state: RootState) => state.me);
   const dispatch = useDispatch();
+  const accessToken = getAccessToken();
+
+  useEffect(() => {
+    if (accessToken) {
+      dispatch({
+        type: "GET_ME",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="app">
@@ -18,17 +30,16 @@ function App() {
       ) : (
         <>
           <h1> react with typescript</h1>
-          <button onClick={() => dispatch({ type: "INCREMENTBY", payload: 5 })}>
-            {count}
-          </button>
-          <button onClick={() => dispatch({ type: "GETUSERS" })}>click</button>
+          <button onClick={() => dispatch({ type: "GET_USERS" })}>click</button>
           <ul>
-            {get(users, "data.data", []).map(
-              ({ employee_name }: { employee_name: string }) => (
-                <li>{employee_name}</li>
+            {get(users, "data", []).map(
+              ({ firstName }: { firstName: string }) => (
+                <li>{firstName}</li>
               )
             )}
           </ul>
+
+          <Auth />
         </>
       )}
     </div>

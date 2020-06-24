@@ -9,7 +9,7 @@ import "normalize.css";
 import App from "components/app";
 import rootReducer from "libs/reducers";
 import * as serviceWorker from "./libs/serviceWorker";
-import watchGetUsersSaga from "libs/sagas/getUsersSaga";
+import rootSaga from "libs/sagas";
 
 import "./index.scss";
 
@@ -19,7 +19,7 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
-sagaMiddleware.run(watchGetUsersSaga);
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
