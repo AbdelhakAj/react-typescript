@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { get } from "lodash";
+import { useQuery } from "@apollo/client";
 
 import { RootState } from "libs/reducers";
 import Auth from "components/auth/auth";
 import { getAccessToken } from "libs/functions";
+import getUser from "libs/apis/graphql.gql";
 
 import "./app.scss";
 
@@ -13,6 +15,9 @@ function App() {
   const me = useSelector((state: RootState) => state.me);
   const dispatch = useDispatch();
   const accessToken = getAccessToken();
+
+  // TODO: find a way to resolve .gql files
+  const { loading, error, data } = useQuery(getUser);
 
   useEffect(() => {
     if (accessToken) {
